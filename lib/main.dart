@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:genesis/providers/myinfo.dart';
+import 'package:genesis/screens/home.dart';
 import 'package:genesis/screens/new_user.dart';
 import './providers/new_user_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,17 +18,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: NewUserInfo())],
-      child: MaterialApp(
-        initialRoute: '/',
-        routes: {},
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: Newuser(),
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider.value(value: NewUserInfo()),
+          ChangeNotifierProvider.value(value: MyInfo())
+        ],
+        child: MaterialApp(
+            initialRoute: '/',
+            routes: {},
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: Home()));
   }
 }

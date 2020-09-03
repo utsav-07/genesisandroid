@@ -1,18 +1,38 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const { firestore } = require('firebase-admin');
 admin.initializeApp();
+
+exports.myinfo = functions.https.onRequest((request, response) => {
+    var val = JSON.parse(request.body);
+    // console.log(request.body);
+    var va  = [];
+    return admin.auth().getUser(val.uid).then(user => {
+      return  admin.firestore().collection('users').where('email', '==', user.email).get().then((snap) => {
+                snap.forEach(da => {
+                    va.push(da.data());
+                });
+        return response.send(JSON.stringify(va));
+        }).catch((e) => {
+            return console.log(e);
+        });
+    }).catch(e2 => {
+        return console.log(e2);
+    })
+
+})
 
 
 exports.fetchgroups = functions.https.onRequest((request, response) => {
-    console.log("AAYA HAI IDHAR");
+
     admin.firestore().collection('groups').get().then(e => {
-       var val = [];
+        var val = [];
         e.forEach(el => {
-         val.push(el.data());
+            val.push(el.data());
         });
         return response.send(JSON.stringify(val));
-       // console.log(_val);
-         
+        // console.log(_val);
+
     }).catch(e => {
         throw response.status(404);
     });
