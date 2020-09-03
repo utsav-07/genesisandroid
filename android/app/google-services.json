@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "128424590896",
+    "firebase_url": "https://genesis-51029.firebaseio.com",
+    "project_id": "genesis-51029",
+    "storage_bucket": "genesis-51029.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:128424590896:android:ac1e14ab58d1e1d469b7f5",
+        "android_client_info": {
+          "package_name": "com.example.genesis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "128424590896-tl8go38jptpp9nokf46brhfs8n2ku0sb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7-kLFs6omjgeG5CHPDN0g-P4cVD45nVA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "128424590896-tl8go38jptpp9nokf46brhfs8n2ku0sb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
