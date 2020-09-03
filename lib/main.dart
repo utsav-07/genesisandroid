@@ -6,7 +6,8 @@ import './providers/new_user_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

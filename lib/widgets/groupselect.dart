@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:genesis/providers/new_user_provider.dart';
 import 'package:genesis/widgets/groupchips.dart';
+import 'package:provider/provider.dart';
 
 class GroupSelection extends StatefulWidget {
   @override
@@ -7,6 +9,15 @@ class GroupSelection extends StatefulWidget {
 }
 
 class _GroupSelectionState extends State<GroupSelection> {
+  @override
+  void initState() {
+    Future.delayed(Duration(microseconds: 1)).then((value) {
+      Provider.of<NewUserInfo>(context, listen: false).retrievegroups();
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

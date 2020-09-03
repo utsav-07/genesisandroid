@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserGroup {
   int id;
@@ -13,6 +14,24 @@ class UserGroup {
 }
 
 class NewUserInfo with ChangeNotifier {
+  void fetchgroups() {
+    http
+        .get('https://us-central1-genesis-51029.cloudfunctions.net/fetchgroups')
+        .then((value) {
+      print("VALKUEE");
+      print(value.body);
+    }); // TODO
+  }
+
+  Future<void> retrievegroups() async {
+    SharedPreferences.getInstance()
+        .then((value) => value.getString('groups'))
+        .catchError((e) async {
+      print(e);
+      fetchgroups();
+    });
+  }
+
   Future<int> submit(List<TextEditingController> _list) async {
     int i = 0;
 
@@ -44,7 +63,7 @@ class NewUserInfo with ChangeNotifier {
     }
 
     final _auth = FirebaseAuth.instance;
-    _auth
+    return _auth
         .createUserWithEmailAndPassword(
             email: _list[4].text, password: _list[5].text)
         .then((value) {
@@ -61,6 +80,7 @@ class NewUserInfo with ChangeNotifier {
               })))
           .then((value) => print(value.body))
           .catchError((er) {
+        print("FF");
         print(er);
       });
     }).catchError((err) {
