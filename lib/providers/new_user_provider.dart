@@ -10,26 +10,57 @@ class UserGroup {
   int id;
   String name;
   bool isSelected;
-  UserGroup({this.name, this.isSelected = false});
+  UserGroup({this.id, this.isSelected = false, this.name});
 }
 
 class NewUserInfo with ChangeNotifier {
-  void fetchgroups() {
+  Future<void> fetchgroups() {
     http
         .get('https://us-central1-genesis-51029.cloudfunctions.net/fetchgroups')
         .then((value) {
-      print("VALKUEE");
+      List<dynamic> val = jsonDecode(value.body);
       print(value.body);
+      usergroups = [];
+      val.forEach((e) {
+        usergroups.add(UserGroup(id: e['id'], name: e['name']));
+      });
+
+      List<Map> _v = [];
+      usergroups.forEach((element) {
+        _v.add({'id': element.id, 'name': element.name});
+      });
+
+      return SharedPreferences.getInstance()
+          .then((value) {
+            //    print(jsonEncode(usergroups));
+            value.setString('groups', jsonEncode(_v));
+          })
+          .then((value) => print(value))
+          .catchError((onError) => print(onError));
     }); // TODO
+    print("FF");
+    print(usergroups.toString());
+
+    return Future.delayed(Duration(microseconds: 1))
+        .then((value) => notifyListeners());
   }
 
   Future<void> retrievegroups() async {
-    SharedPreferences.getInstance()
-        .then((value) => value.getString('groups'))
-        .catchError((e) async {
-      print(e);
-      fetchgroups();
-    });
+    if (usergroups.length == 0)
+      SharedPreferences.getInstance().then((value) {
+        List<dynamic> _v = jsonDecode(value.getString('groups'));
+        _v.forEach((e) {
+          usergroups.add(UserGroup(id: e['id'], name: e['name']));
+        });
+        if (value.getString('groups') == null) {
+          fetchgroups();
+        }
+        notifyListeners();
+      }).catchError((e) async {
+        print(e);
+
+        fetchgroups();
+      });
   }
 
   Future<int> submit(List<TextEditingController> _list) async {
@@ -90,12 +121,12 @@ class NewUserInfo with ChangeNotifier {
   }
 
   List<UserGroup> usergroups = [
-    UserGroup(
-      name: "Coding",
-    ),
-    UserGroup(name: "Designing"),
-    UserGroup(name: "Chicken"),
-    UserGroup(name: "Biryani")
+    // UserGroup(
+    //   name: "Coding",
+    // ),
+    // UserGroup(name: "Designing"),
+    // UserGroup(name: "Chicken"),
+    // UserGroup(name: "Biryani")
   ];
   List<Map<String, dynamic>> selectedgroups = [];
 

@@ -6,10 +6,15 @@ admin.initializeApp();
 exports.fetchgroups = functions.https.onRequest((request, response) => {
     console.log("AAYA HAI IDHAR");
     admin.firestore().collection('groups').get().then(e => {
-        e.docs = JSON.stringify(e.docs);
-         return response.send(e.docs);
+       var val = [];
+        e.forEach(el => {
+         val.push(el.data());
+        });
+        return response.send(JSON.stringify(val));
+       // console.log(_val);
+         
     }).catch(e => {
-        return response.status(404);
+        throw response.status(404);
     });
 
 });

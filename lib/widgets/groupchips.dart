@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 class GroupOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _g = Provider.of<NewUserInfo>(context);
+    final _g = Provider.of<NewUserInfo>(context, listen: true);
     List<UserGroup> _groups = _g.getgroups;
     return GridView.builder(
       gridDelegate:
